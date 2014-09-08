@@ -7,17 +7,16 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <vector>
+#include <vector> //http://www.cplusplus.com/reference/vector/vector/
 #include <stdio.h>
 #include <stdlib.h>
 #include <sstream>
 
 using namespace std;
-///
-//  personStruct
-//
+//**************************
+//  personStruct Declaration
+//**************************//
 struct PersonStruct{
-    
     //Public attributes
     string lastName;
     string firstName;
@@ -25,7 +24,37 @@ struct PersonStruct{
     string getName();
     void setFullName(string fullname);
 };
+//---PersonStruct Implementation---//
+//Prints full name
+void PersonStruct::printName(){
+    printf("%s %s \n", firstName.c_str(), lastName.c_str());
+}
+//returns the person's name as one string
+string PersonStruct::getName(){
+    return firstName + " " + lastName;
+}
 
+//Takes in a fullname and splits it at ' ' (space) and saves it to firstName and lastName
+void PersonStruct::setFullName(string fullname){
+    stringstream myString(fullname);
+    string segment;
+    vector<string> seglist;
+    //Firstname
+    if (getline(myString, segment, ' ')){
+        firstName = segment;
+    }
+    //Lastname
+    if (getline(myString, segment, ' ')){
+        lastName = segment;
+    }
+}
+//**************************
+//  End PersonStruct Struct
+//**************************//
+
+//**************************
+//  Book Class Declaration
+//**************************//
 class Book {
     
 private:
@@ -39,6 +68,7 @@ private:
 public:
     //Constructor
     Book(string t, PersonStruct a, string l, string p, int y, int r); //This is the constructor
+            // --  Constructor with no params Ex: Book();
     //Deconstructor
     ~Book();
     
@@ -64,23 +94,7 @@ public:
     void setRating(int r);
 };
 
-// Person class
-class Person {
-    
-public:
-    
-    //Public attributes
-    string lastName;
-    string firstName;
-    
-    //Constructor
-    Person(string last, string first);
-    ~Person(); //Deconstructor
-    
-    //Member Functions//
-    void printName();
-    
-};
+
 
 //Constructor with params
 Book::Book(string t, PersonStruct a, string l, string p, int y, int r){
@@ -149,10 +163,26 @@ void Book::setRating(int r){
 }
 
 
-//
-
+//**************************
+//  Class Person
+//**************************
+class Person {
+    
+public:
+    
+    //Public attributes
+    string lastName;
+    string firstName;
+    
+    //Constructor
+    Person(string last, string first);
+    ~Person(); //Deconstructor
+    
+    //Member Functions//
+    void printName();
+    
+};
 //Constructor with params
-
 Person::Person(string last, string first){
     lastName = last;
     firstName = first;
@@ -166,34 +196,6 @@ Person::~Person(){
 //Prints full name
 void Person::printName(){
     printf("%s %s \n", firstName.c_str(), lastName.c_str());
-}
-
-// PersonStruct
-//
-//Prints full name
-void PersonStruct::printName(){
-    printf("%s %s \n", firstName.c_str(), lastName.c_str());
-}
-//returns the person's name as one string
-string PersonStruct::getName(){
-    return firstName + " " + lastName;
-}
-
-//Takes in a fullname and splits it at ' ' (space) and saves it to firstName and lastName
-void PersonStruct::setFullName(string fullname){
-    
-    stringstream myString(fullname);
-    string segment;
-    vector<string> seglist;
-    
-    //Firstname
-    if (getline(myString, segment, ' ')){
-        firstName = segment;
-    }
-    //Lastname
-    if (getline(myString, segment, ' ')){
-        lastName = segment;
-    }
 }
 
 //Global Variables//
@@ -282,44 +284,70 @@ void readFile(string filename){
 }
 
 //This is for exercise 3
+//Prints books array
 void printBooks(){
     //vector <Book> books;
     //We need to loop through each book!
+    cout << __PRETTY_FUNCTION__ << " Start" << endl;
+    cout << " ***-=Printing Books=-***" << endl;
     for (int i = 0; i < books.size(); i++){
         books[i].printInfo(); //Bundled printInfo()function the Book Class.
     }
+    cout << " ***-=End Printing Books=-***" << endl;
+    cout << __PRETTY_FUNCTION__ << " END" << endl;
+    
+    /*
     cout << "***Reverse Loop Print***" << endl;
     
     //Looping through array/vector backwards
     for (int j = books.size() - 1; j >= 0; j--){
         books[j].printInfo(); //Bundled printInfo()function the Book Class.
     }
+     */
+    
 }
 
+//Reverse array
 void reverseArray(){
+    cout << __PRETTY_FUNCTION__ << "Start" << endl;
+    
     for (int j = books.size() - 1; j >= 0; j--){
         reverseBooks.push_back(books[j]);
     }
+    books = reverseBooks;
+
+    cout << __PRETTY_FUNCTION__ << "END" << endl;
     
+    /*
     cout << "***Reverse Vector Print***" << endl;
     
     for (int i = 0; i < reverseBooks.size(); i++){
         reverseBooks[i].printInfo(); //Bundled printInfo()function the Book Class.
+    }*/
+    
+
+}
+
+void writeBooks(string filename){
+
+    ofstream writeFile;
+    writeFile.open (filename);
+    
+    cout << __PRETTY_FUNCTION__ << " Start" << endl;
+
+    for (int i = 0; i < books.size(); i++){
+        //books[i].printInfo(); //Bundled printInfo()function the Book Class.
+        
+        writeFile << books[i].getTitle()  << endl;
+        PersonStruct myAuthor = books[i].getAuthor();
+        // writeFile << myAuthor.firstName << " " << myAuthor.lastName << endl;
+        // get language
+        // get year
+        
     }
-
+    writeFile.close();
+    cout << __PRETTY_FUNCTION__ << " END" << endl;
 }
-
-void writeBooksForward(string filename){
-    
-    
-    
-}
-
-void writeBooksBackward(string filename){
-    
-    
-}
-
 
 void exerciseThree(){
     cout << "***Exercise 3***" << endl;
@@ -327,8 +355,15 @@ void exerciseThree(){
     readFile("/Users/cj/Documents/xcodeProjects/apps/HelloWorldReadFile/HelloWorldReadFile/Book2.txt");
     printBooks();
     reverseArray();
-    //writeBooksForward("/Users/cj/Desktop/BooksForward.txt");
-    //writeBooksBackward("/Users/cj/Desktop/BooksBackward.txt");
+    cout << "     Print out books reversed " << endl;
+    printBooks();
+    
+    writeBooks("/Users/cj/Desktop/BooksBackwards.txt"); //writing the books in reverse
+    books.empty(); //Empty the books array;
+    //readFile("/Users/cj/Desktop/BooksBackwards.txt");
+    //reverseArray(); //The books should be forward -- should be back to original
+    //printBooks();
+    //writeBooks("/Users/cj/Desktop/BooksForwards.txt"); //writing the books in reverse
     
     
     cout << "***End Exercise 3***" << endl;
