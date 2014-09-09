@@ -27,7 +27,7 @@ struct PersonStruct{
 //---PersonStruct Implementation---//
 //Prints full name
 void PersonStruct::printName(){
-    printf("%s %s \n", firstName.c_str(), lastName.c_str());
+    printf("%s %s\n", firstName.c_str(), lastName.c_str());
 }
 //returns the person's name as one string
 string PersonStruct::getName(){
@@ -111,10 +111,10 @@ Book::~Book(){
 
 //Member Functions//
 void Book::printInfo(){
-    printf("Title: %s \n", title.c_str());
+    printf("Title: %s\n", title.c_str());
     printf("Author: ");
     author.printName();
-    printf("Publisher: %s \n", publisher.c_str());
+    printf("Publisher: %s\n", publisher.c_str());
     printf("Year: %d \n", year);
     printf("Rating: %d \n", rating);
 }
@@ -294,7 +294,7 @@ void printBooks(){
 void reverseArray(){
     cout << __PRETTY_FUNCTION__ << "Start" << endl;
     
-    for (int j = books.size() - 1; j >= 0; j--){
+    for (int j = int(books.size() - 1); j >= 0; j--){
         reverseBooks.push_back(books[j]);
     }
     books = reverseBooks;
@@ -332,16 +332,16 @@ void writeBooks(string filename){
 void exerciseThree(){
     cout << "***Exercise 3***" << endl;
     
-    readFile("/Users/cj/Documents/xcodeProjects/apps/HelloWorldReadFile/HelloWorldReadFile/Book2.txt");
-    printBooks();
+    readFile("/Users/cj/Desktop/Book2.txt");
+    //printBooks();
     reverseArray();
     cout << "     Print out books reversed " << endl;
-    printBooks();
+    //printBooks();
     writeBooks("/Users/cj/Desktop/BooksBackwards.txt"); //writing the books in reverse
-    //We should empty the array here
-    
+    //We should clear the array here
+    books.clear();
+    reverseBooks.clear();
     readFile("/Users/cj/Desktop/BooksBackwards.txt");
-    books.empty(); //Empty the books array;  //This line is out of order// After this line (when you put it in the correct spot), empty the reverseBooks array too.
     reverseArray(); //The books should be forward -- should be back to original
     printBooks();
     writeBooks("/Users/cj/Desktop/BooksForwards.txt"); //writing the books in reverse
@@ -350,10 +350,7 @@ void exerciseThree(){
 }
 
 int main(int argc, const char * argv[]){
-    
     cout << "Lab 1, Exercise 3 \n";
-    
     exerciseThree();
-    
     return 0;
 }
