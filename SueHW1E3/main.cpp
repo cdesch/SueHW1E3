@@ -68,7 +68,7 @@ private:
 public:
     //Constructor
     Book(string t, PersonStruct a, string l, string p, int y, int r); //This is the constructor
-            // --  Constructor with no params Ex: Book();
+    // --  Constructor with no params Ex: Book();
     //Deconstructor
     ~Book();
     
@@ -93,8 +93,6 @@ public:
     void setYear(int y);
     void setRating(int r);
 };
-
-
 
 //Constructor with params
 Book::Book(string t, PersonStruct a, string l, string p, int y, int r){
@@ -162,7 +160,6 @@ void Book::setRating(int r){
     rating = r;
 }
 
-
 //**************************
 //  Class Person
 //**************************
@@ -202,19 +199,11 @@ void Person::printName(){
 vector <Book> books; //My Vector of Books
 vector <Book> reverseBooks;
 
-//Generate Random Number between 1 and 10
-int generateRandomNumber(){
-    //Initialize random seed:
-    srand (time(NULL));
-    //Generate secret number between 1 and 10:
-    return rand() % 10 + 1;
-}
-
 //This function converts a string to an integer
 //It returns a variable of type int
 int converStringToInt(string myString){
     //atoi() isn't something you would normally know about it
-    //Here is the documentation link http://www.cplusplus.com/reference/cstdlib/atoi/
+    //Documentation link http://www.cplusplus.com/reference/cstdlib/atoi/
     return atoi(myString.c_str());
 }
 
@@ -246,7 +235,7 @@ void readFile(string filename){
         string language;
         string publisher = "No Publisher"; ///There is no publisher in the sample file
         int year;
-        int rating = generateRandomNumber(); //There is no rating in the sample file.  I used a random number instead.
+        int rating = 0; //There is no rating in the sample file.  I used a random number instead.
         
         //The next line is the author—one option is to just call getline(), but I chose to put it around an if statement incase it runs into a problem reading the end of the file.
         
@@ -261,12 +250,6 @@ void readFile(string filename){
             //year = str; // str is of type string and year is of type int. Need to convert the string to an integer. Since this may be done more than once, create a function that takes in strings and returns integers.  This is also used for rating.
             year = converStringToInt(str);
         }
-        
-        /*
-        if (getline(infile, str)){
-            rating = converStringToInt(str);
-        }*/
-        
         
         //Creating the book object
         
@@ -297,12 +280,12 @@ void printBooks(){
     cout << __PRETTY_FUNCTION__ << " END" << endl;
     
     /*
-    cout << "***Reverse Loop Print***" << endl;
-    
-    //Looping through array/vector backwards
-    for (int j = books.size() - 1; j >= 0; j--){
-        books[j].printInfo(); //Bundled printInfo()function the Book Class.
-    }
+     cout << "***Reverse Loop Print***" << endl;
+     
+     //Looping through array/vector backwards
+     for (int j = books.size() - 1; j >= 0; j--){
+     books[j].printInfo(); //Bundled printInfo()function the Book Class.
+     }
      */
     
 }
@@ -315,34 +298,31 @@ void reverseArray(){
         reverseBooks.push_back(books[j]);
     }
     books = reverseBooks;
-
+    
     cout << __PRETTY_FUNCTION__ << "END" << endl;
     
     /*
-    cout << "***Reverse Vector Print***" << endl;
-    
-    for (int i = 0; i < reverseBooks.size(); i++){
-        reverseBooks[i].printInfo(); //Bundled printInfo()function the Book Class.
-    }*/
-    
-
+     cout << "***Reverse Vector Print***" << endl;
+     
+     for (int i = 0; i < reverseBooks.size(); i++){
+     reverseBooks[i].printInfo(); //Bundled printInfo()function the Book Class.
+     }*/
 }
 
 void writeBooks(string filename){
-
     ofstream writeFile;
     writeFile.open (filename);
     
     cout << __PRETTY_FUNCTION__ << " Start" << endl;
-
+    
     for (int i = 0; i < books.size(); i++){
         //books[i].printInfo(); //Bundled printInfo()function the Book Class.
         
         writeFile << books[i].getTitle()  << endl;
         PersonStruct myAuthor = books[i].getAuthor();
-        // writeFile << myAuthor.firstName << " " << myAuthor.lastName << endl;
-        // get language
-        // get year
+        writeFile << myAuthor.firstName << " " << myAuthor.lastName<< endl;
+        writeFile << books[i].getLanguage() << endl;
+        writeFile << books[i].getYear()  << endl;
         
     }
     writeFile.close();
@@ -357,14 +337,14 @@ void exerciseThree(){
     reverseArray();
     cout << "     Print out books reversed " << endl;
     printBooks();
-    
     writeBooks("/Users/cj/Desktop/BooksBackwards.txt"); //writing the books in reverse
-    books.empty(); //Empty the books array;
-    //readFile("/Users/cj/Desktop/BooksBackwards.txt");
-    //reverseArray(); //The books should be forward -- should be back to original
-    //printBooks();
-    //writeBooks("/Users/cj/Desktop/BooksForwards.txt"); //writing the books in reverse
+    //We should empty the array here
     
+    readFile("/Users/cj/Desktop/BooksBackwards.txt");
+    books.empty(); //Empty the books array;  //This line is out of order// After this line (when you put it in the correct spot), empty the reverseBooks array too.
+    reverseArray(); //The books should be forward -- should be back to original
+    printBooks();
+    writeBooks("/Users/cj/Desktop/BooksForwards.txt"); //writing the books in reverse
     
     cout << "***End Exercise 3***" << endl;
 }
@@ -374,8 +354,6 @@ int main(int argc, const char * argv[]){
     cout << "Lab 1, Exercise 3 \n";
     
     exerciseThree();
-    
-    
     
     return 0;
 }
